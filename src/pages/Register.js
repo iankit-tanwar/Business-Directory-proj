@@ -1,18 +1,15 @@
-import React, { useState } from 'react'
+import React, { } from 'react'
 import { Form, Button } from 'react-bootstrap'
+import swal from 'sweetalert';
+
 
 export default function Register() {
   //hooks area
-  const [payload, setPayload] = useState({
-    "username": "ankit",
-    "email": "ankit@strapi.io",
-    "password": "Test1234"
-
-
-  });
+  //const [payload, setPayload] = useState({});
 
   let registerUser = () => {
-    alert('okokokok')
+
+    //alert('okokokok')
 
 
     let u = document.querySelector('input[name=username]').value;
@@ -24,34 +21,36 @@ export default function Register() {
     console.log(e)
     console.log(p)
 
+
+    
+
+
+    ;
    
-    setPayload(
-      {
-        "username": u,
-        "email": e,
-        "password": p
-    
-    
-      }
-
-     
-    );
-    console.log(payload)
 
 
-    fetch(`http://localhost:1337/api/auth/local/register`,{
-      method:'POST',
+    fetch(`http://localhost:1337/api/auth/local/register`, {
+      method: 'POST',
       headers: {
         "Content-Type": "application/json",
       },
-      body:JSON.stringify(payload)
+      body: JSON.stringify({ "username": u,
+      "email": e,
+      "password": p})
     })
-    .then((res)=>{res.json()})
-    .then((data)=>{
-      console.log(data)
-    })
-    .catch(err=>err);
-      
+      .then((res) => { res.json() })
+      .then((data) => {
+        console.log(data);
+        if (data.data === null ) {
+          swal("bad job!", `${data.error.message}`, "error");
+
+        } else {
+          swal("good job!", "You clicked the button!", "success");
+        }
+
+      })
+      .catch(err => err);
+
 
 
 

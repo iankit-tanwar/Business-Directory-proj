@@ -4,6 +4,15 @@ import { Link } from 'react-router-dom';
 import logo from '../../logo.svg';
 
 export default function Navigation() {
+    let myLogout = ()=>{
+
+        window.localStorage.removeItem('token-->')
+        window.location.href ='/login'
+    }
+
+
+
+
     return (
         <><Navbar bg="light" expand="lg" className='h-100'>
             <Container fluid>
@@ -18,7 +27,7 @@ export default function Navigation() {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
-                <Form className="d-flex">
+                    <Form className="d-flex">
                         <Form.Control
                             type="search"
                             placeholder="Search"
@@ -33,11 +42,30 @@ export default function Navigation() {
                         navbarScroll
                     >
                         <Link to="/" className='btn btn-link'>Home</Link>
-                        <Link to="/login" className='btn btn-link'>Login</Link>
-                        <Link to="/register" className='btn btn-link'>Register</Link>
 
-                        
-                    </Nav>
+                        {
+                            window.localStorage.getItem('token-->') === null &&
+
+
+                            <> <Link to="/login" className='btn btn-link'>Login</Link>
+                                <Link to="/register" className='btn btn-link'>Register</Link>
+                            </>
+
+                        }
+
+                        {
+                            window.localStorage.getItem('token-->') !== null &&
+
+                            <>
+                            <Nav.Link onClick={()=>{myLogout()}} className='btn btn-link'>Logout</Nav.Link >
+
+                                </>
+                          
+                         
+                        }
+
+
+                            </Nav>
                     
                 </Navbar.Collapse>
             </Container>
