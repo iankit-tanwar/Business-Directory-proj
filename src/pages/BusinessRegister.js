@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import swal from 'sweetalert';
+import { URL } from '../helper/url';
 
 
 export default function BusinessRegister() {
@@ -9,19 +10,56 @@ export default function BusinessRegister() {
 
 
 
+    const [contries, setContries] = useState([]);
+    const [state, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [businessCategory, setBusinessCategory] = useState([]);
 
-    let url = 'http://localhost:1337';
+   
 
     useEffect(() => {
+        // call the countries api
+       
+        fetch(`${URL}/api/countries`, {
+            method: "GET"
+        })
+
+            .then((res) => {
+                return res.json()
+            })
+
+            .then((contriesData) => {
+                console.log("country--->", contriesData.data)
+                setContries(contriesData.data)
+            })
+
+            .catch(err => err);
+
+
+             // call the states api
+       
+        fetch(`${URL}/api/statuses`, {
+            method: "GET"
+        })
+
+            .then((res) => {
+                return res.json()
+            })
+
+            .then((statesData) => {
+                console.log("city--->", statesData.data)
+                setStates(statesData.data)
+            })
+
+            .catch(err => err);
+
 
 
 
 
         // call the city api
 
-        fetch(`${url}/api/cities`, {
+        fetch(`${URL}/api/cities`, {
             method: "GET"
         })
 
@@ -41,7 +79,7 @@ export default function BusinessRegister() {
 
         //call the business apis
 
-        fetch(`${url}/api/business-categories`, {})
+        fetch(`${URL}/api/business-categories`, {})
             .then((res) => {
                 return res.json()
             })
@@ -74,7 +112,7 @@ export default function BusinessRegister() {
 
 
 
-        fetch(`${url}/api/businesses`, {
+        fetch(`${URL}/api/businesses`, {
 
         method:"POST",
         headers:{
@@ -93,16 +131,78 @@ export default function BusinessRegister() {
 
     }
 
+    let getStates=(e)=>{
 
+       // alert("hii")
+
+       console.log('onchange--->', e.target.value)
+       let country_id = e.target.value
+
+       fetch(`${URL}/api/statuses?filters[country][id][$eq]=${country_id}&populate=*`,{
+        method:"GET"
+       })
+       .then(res=>res.json())
+       .then((statesData)=>{
+        console.log('statesdata',statesData.data)
+        setStates(statesData.data)
+       })
+       .catch(err=>err);
+    }
+
+let getCities=(e)=>{
+    console.log('onchange--->', e.target.value)
+    let state_id = e.target.value
+
+    fetch(`${URL}/api/cities?filters[state][id][$eq]=${state_id}&populate=*`,{
+     method:"GET"
+    })
+    .then(res=>res.json())
+    .then((cityData)=>{
+     console.log('city--->datat',cityData.data)
+     setCities(cityData.data)
+    })
+    .catch(err=>err);
+ 
+
+
+}
 
 
     return (
         <>
             <h1 className='text-center'>Business_Register</h1>
             <Form>
+            <Form.Group className="mb-3" >
+                    <Form.Label>Country</Form.Label>
+                    <Form.Select name= "country_id" aria-label="Default select example" onChange={(e)=>{getStates(e)}}>
+
+                        {
+                            contries.map((cv, idx, arr) => {
+                                return <option key={idx} value={cv.id}>{cv.attributes.name}</option>
+
+                            })
+                        }
+
+
+                    </Form.Select>
+                </Form.Group>
+                <Form.Group className="mb-3" >
+                    <Form.Label>State</Form.Label>
+                    <Form.Select name= "state_id" aria-label="Default select example" onChange={(e)=>{getCities(e)}}>
+
+                        {
+                            state.map((cv, idx, arr) => {
+                                return <option key={idx} value={cv.id}>{cv.attributes.name}</option>
+
+                            })
+                        }
+
+
+                    </Form.Select>
+                </Form.Group>
 
                 <Form.Group className="mb-3" >
-                    <Form.Label>Enter City</Form.Label>
+                    <Form.Label> City</Form.Label>
                     <Form.Select name= "city_id" aria-label="Default select example">
 
                         {
@@ -117,7 +217,7 @@ export default function BusinessRegister() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" >
-                    <Form.Label>Enter Business_Category</Form.Label>
+                    <Form.Label> Business_Category</Form.Label>
                     <Form.Select  name="business_id" aria-label="Default select example">
 
 
@@ -131,8 +231,8 @@ export default function BusinessRegister() {
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3" >
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" name="business_name" placeholder="Enter email" />
+                    <Form.Label>Business_Name</Form.Label>
+                    <Form.Control type="email" name="business_name" placeholder="Enter Business_Name" />
                     <Form.Text className="text-muted">
 
                     </Form.Text>

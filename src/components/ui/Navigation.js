@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
-import logo from '../../logo.svg';
+import { URL } from '../../helper/url';
 
 export default function Navigation() {
+const[logo , setLogo]=useState('')
+
+    useEffect(()=>{
+        fetch(`${URL}/api/website?populate=*`)
+        .then(res=>res.json())
+        .then((data)=>{
+            console.log("Loggo====>",data.data.attributes.logo.data.attributes.url )
+            setLogo(data.data.attributes.logo.data.attributes.url)
+        }).catch(err=>err)
+    },[])
+
+
+
+
     let myLogout = ()=>{
 
         window.localStorage.removeItem('token-->')
@@ -18,7 +32,7 @@ export default function Navigation() {
             <Container fluid>
                 <Navbar.Brand href="#">
                     <img
-                        src={logo}
+                       src={`${URL}${logo}`}
                         width="100"
 
                         className="d-inline-block align-top"
@@ -58,6 +72,7 @@ export default function Navigation() {
 
                             <>
                             <Nav.Link onClick={()=>{myLogout()}} className='btn btn-link'>Logout</Nav.Link >
+                            <Link to="/Business_Register" className='btn btn-link'>Business Register</Link>
 
                                 </>
                           
