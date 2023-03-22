@@ -17,6 +17,16 @@ export default function App() {
 
 
   //2.1 hook area
+  
+    if( window.localStorage.getItem('token-->') === null){
+      return (<>
+      
+      <Login /></>)
+    }
+   
+   
+
+
 
   //2.2 function defiantion area
 
@@ -31,11 +41,10 @@ export default function App() {
           <Route path='login' element={<Login />}></Route>
           <Route path='register' element={<Register />}></Route>
           <Route path='detail' element={<Detail />}></Route>
-          {
-            window.localStorage.getItem('token-->') !== null &&
+          
             < Route path='business_Register' element={<BusinessRegister />}></Route>
 
-          }
+        
 
 
 

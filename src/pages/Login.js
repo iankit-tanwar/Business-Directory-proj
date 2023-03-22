@@ -51,6 +51,7 @@ export default function Login() {
     return (
         <>
             <Form>
+                <h1>LOGIN </h1>
                 <Form.Group className="mb-3" >
                     <Form.Label>Email address</Form.Label>
                     <Form.Control type="email" placeholder="Enter email" />

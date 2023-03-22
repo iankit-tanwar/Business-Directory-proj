@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
-import swal from 'sweetalert';
+
 import { URL } from '../helper/url';
 
 
@@ -110,13 +110,20 @@ export default function BusinessRegister() {
             }
         }
 
+        //1 get the token form the local storage
+
+
+       
+
 
 
         fetch(`${URL}/api/businesses`, {
 
         method:"POST",
         headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+          
+
         },
         body: JSON.stringify(payload)
         })
@@ -125,7 +132,15 @@ export default function BusinessRegister() {
 
             }).then((data) => {
                 console.log(data)
-                swal("Good job!", "You clicked the button!", "success");
+               
+                
+                if(data["data"]===null){
+                    alert(`${data.error.message}`); 
+                }else{
+                    alert("Good job!", "You clicked the button!", "success");
+                }
+
+            
 
             }).catch(err => err);
 
@@ -186,7 +201,10 @@ let getCities=(e)=>{
 
                     </Form.Select>
                 </Form.Group>
-                <Form.Group className="mb-3" >
+
+                {
+                    state.length !== 0 && 
+                    <Form.Group className="mb-3" >
                     <Form.Label>State</Form.Label>
                     <Form.Select name= "state_id" aria-label="Default select example" onChange={(e)=>{getCities(e)}}>
 
@@ -200,8 +218,10 @@ let getCities=(e)=>{
 
                     </Form.Select>
                 </Form.Group>
-
-                <Form.Group className="mb-3" >
+                }
+                {
+                    cities.length !== 0 && 
+                    <Form.Group className="mb-3" >
                     <Form.Label> City</Form.Label>
                     <Form.Select name= "city_id" aria-label="Default select example">
 
@@ -215,6 +235,9 @@ let getCities=(e)=>{
 
                     </Form.Select>
                 </Form.Group>
+                }
+
+                
 
                 <Form.Group className="mb-3" >
                     <Form.Label> Business_Category</Form.Label>
