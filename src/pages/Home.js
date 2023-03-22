@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { URL } from '../helper/url';
 
 
 
@@ -8,13 +9,13 @@ import React, { useEffect, useState } from 'react'
 export default function Home() {
     const[businessCategory,setBusinessCategory]=useState([]);
 
-    var x = 'http://localhost:1337';
+   // let x = 'http://localhost:1337';
     
 
 
 
 useEffect(()=>{
-    fetch(`${x}/api/business-categories?populate=*`)
+    fetch(`${URL}/api/business-categories?populate=*`)
     .then((res)=>{
         return res.json()
         
@@ -46,7 +47,7 @@ useEffect(()=>{
                    businessCategory.map((cv,idx,arr)=>{
                         return<li className='text-center ms-3'>
                        <a href='#'>
-                           <img src={`${x}`+cv.attributes.image.data.attributes.url} /><br /> {cv.attributes.name}</a>
+                           <img src={`${URL}`+cv.attributes.image.data.attributes.url} /><br /> {cv.attributes.name}</a>
                  </li>
                  })
                }

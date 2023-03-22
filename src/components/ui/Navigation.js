@@ -5,6 +5,7 @@ import { URL } from '../../helper/url';
 
 export default function Navigation() {
 const[logo , setLogo]=useState('')
+var x = document.getElementById("demo");
 
     useEffect(()=>{
         fetch(`${URL}/api/website?populate=*`)
@@ -23,6 +24,21 @@ const[logo , setLogo]=useState('')
         window.localStorage.removeItem('token-->')
         window.location.href ='/login'
     }
+    let detectLocation =()=>{
+       // alert("hii")
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+          } else {
+            x.value = "Geolocation is not supported by this browser.";
+          }
+        
+    }
+    let showPosition=(position)=>{
+        console.log(position)
+        x.value = "Village Rewla khanpur"
+       // x.value = "Latitude: " + position.coords.latitude +
+       // "<br>Longitude: " + position.coords.longitude;
+      }
 
 
 
@@ -42,8 +58,10 @@ const[logo , setLogo]=useState('')
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                     <Form className="d-flex">
+                        <Button className='btn btn-sm ' onClick={()=>{detectLocation()}}>Detect Location</Button>
                         <Form.Control
                             type="search"
+                            id="demo"
                             placeholder="Search"
                             className="me-2"
                             aria-label="Search"
