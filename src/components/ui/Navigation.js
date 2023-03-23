@@ -35,6 +35,7 @@ var x = document.getElementById("demo");
     }
     let showPosition=(position)=>{
         console.log(position)
+        window.localStorage.setItem('addres---->','Village Rewla khanpur')
         x.value = "Village Rewla khanpur"
        // x.value = "Latitude: " + position.coords.latitude +
        // "<br>Longitude: " + position.coords.longitude;
@@ -46,7 +47,7 @@ var x = document.getElementById("demo");
     return (
         <><Navbar bg="light" expand="lg" className='h-100'>
             <Container fluid>
-                <Navbar.Brand href="#">
+                <Link to="/">
                     <img
                        src={`${URL}${logo}`}
                         width="100"
@@ -54,19 +55,30 @@ var x = document.getElementById("demo");
                         className="d-inline-block align-top"
                         alt="React Bootstrap logo"
                     />
-                </Navbar.Brand>
+                </Link>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                     <Form className="d-flex">
-                        <Button className='btn btn-sm ' onClick={()=>{detectLocation()}}>Detect Location</Button>
+                        <Button className='btn btn-sm ms-3 ' onClick={()=>{detectLocation()}}>Detect Location</Button>
+
                         <Form.Control
-                            type="search"
+                            type="text"
+                            disabled
                             id="demo"
                             placeholder="Search"
-                            className="me-2"
+                            className="ms-3"
+                            
+                        />
+                        <Form.Control
+                            type="search"
+                         
+                            placeholder="Search"
+                            className="ms-3"
                             aria-label="Search"
                         />
-                        <Button variant="outline-success">Search</Button>
+
+
+                        <Button variant="outline-success" className='ms-3'>Search</Button>
                     </Form>
                     <Nav
                         className="me-auto my-2 my-lg-0"
@@ -89,8 +101,9 @@ var x = document.getElementById("demo");
                             window.localStorage.getItem('token-->') !== null &&
 
                             <>
+                             <Link to="/Business_Register" className='btn btn-link'>Business Register</Link>
                             <Nav.Link onClick={()=>{myLogout()}} className='btn btn-link'>Logout</Nav.Link >
-                            <Link to="/Business_Register" className='btn btn-link'>Business Register</Link>
+                           
 
                                 </>
                           

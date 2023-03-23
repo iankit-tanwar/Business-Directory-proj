@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import { URL } from '../helper/url';
 
 
@@ -46,8 +47,8 @@ useEffect(()=>{
            {
                    businessCategory.map((cv,idx,arr)=>{
                         return<li className='text-center ms-3'>
-                       <a href='#'>
-                           <img src={`${URL}`+cv.attributes.image.data.attributes.url} /><br /> {cv.attributes.name}</a>
+                       <Link to='search'>
+                           <img src={`${URL}`+cv.attributes.image.data.attributes.url} /><br /> {cv.attributes.name}</Link>
                  </li>
                  })
                }
