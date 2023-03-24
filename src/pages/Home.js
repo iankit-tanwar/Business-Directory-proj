@@ -47,7 +47,7 @@ useEffect(()=>{
            {
                    businessCategory.map((cv,idx,arr)=>{
                         return<li className='text-center ms-3'>
-                       <Link to='search'>
+                       <Link to={'search?cat_name='+cv.attributes.name}>
                            <img src={`${URL}`+cv.attributes.image.data.attributes.url} /><br /> {cv.attributes.name}</Link>
                  </li>
                  })
