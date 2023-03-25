@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { Badge, Button, Card, Col, ListGroup, Row } from 'react-bootstrap'
 import { Link, useSearchParams } from 'react-router-dom';
 import { URL } from '../helper/url';
+import img from '../assests/img/1.png';
+
 
 
 
@@ -32,12 +34,12 @@ export default function Search() {
                     {
                         businesses.map((cv, idx, arr) => {
                            
-                         return    <Link key={idx} to='/detail'>
+                         return    <Link key={idx} to={'/detail?hotel_id='+cv.id}>
                          <Card key={idx} className='p-3 mb-3'>
                            
 
                                 <Row>
-                                    <Col sm={3} >  <Card.Img className="img-fluid" variant="top" src={ URL +cv.attributes.photo.data[0].attributes.url} /></Col>
+                                    <Col sm={3} >  <Card.Img className="img-fluid" variant="top" src={ (cv.attributes.photo.data!== null)?URL +cv.attributes.photo.data[0].attributes.url:img} /></Col>
                                     <Col sm={9}><Card.Body>
                                         <Card.Title> {cv.attributes.name}</Card.Title>
 
@@ -57,7 +59,7 @@ export default function Search() {
                                         <Card.Text>
                                            {cv.attributes.desc}
                                         </Card.Text>
-                                        <a  href={"tel:"+cv.attributes.phone} className="btn btn-success " >{'91-'+cv.attributes.phone}</a>
+                                        <a  href={"tel:"+cv.attributes.phone} className="btn btn-success "  onClick={(e)=>{e.stopPropagation()}}>{'91-'+cv.attributes.phone}</a>
                                     </Card.Body></Col>
 
 
