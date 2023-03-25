@@ -2,7 +2,7 @@ import { faStar } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
 import { Badge, Button, Card, Col, ListGroup, Row } from 'react-bootstrap'
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { URL } from '../helper/url';
 
 
@@ -19,7 +19,7 @@ export default function Search() {
         fetch(`${URL}/api/businesses?populate=*&filters[business_categories][name][$containsi]=${searchParams.get('cat_name')}`, {})
             .then(res => res.json())
             .then((data) => {
-                console.log(data.data)
+                console.log(data.data);
                 setBusinesses(data.data);
             })
             .catch(err => err);
@@ -32,7 +32,9 @@ export default function Search() {
                     {
                         businesses.map((cv, idx, arr) => {
                            
-                         return   <Card key={idx} className='p-3 mb-3'>
+                         return    <Link key={idx} to='/detail'>
+                         <Card key={idx} className='p-3 mb-3'>
+                           
 
                                 <Row>
                                     <Col sm={3} >  <Card.Img className="img-fluid" variant="top" src={ URL +cv.attributes.photo.data[0].attributes.url} /></Col>
@@ -55,13 +57,15 @@ export default function Search() {
                                         <Card.Text>
                                            {cv.attributes.desc}
                                         </Card.Text>
-                                        <Button className='btn btn-succes'>show number</Button>
+                                        <a  href={"tel:"+cv.attributes.phone} className="btn btn-success " >{'91-'+cv.attributes.phone}</a>
                                     </Card.Body></Col>
 
 
 
                                 </Row>
+                              
                             </Card>
+                            </Link>
                         })
                     }
 
