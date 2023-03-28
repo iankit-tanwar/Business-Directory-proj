@@ -87,9 +87,11 @@ export default function Detail() {
   */}
   
 
-  let desc = document.querySelector("textarea.review_desc").value
+  
 
   let submitReview=(e)=>{
+    let desc = document.querySelector("textarea.review_desc").value
+    console.log('desc--->',desc)
     
     console.log(reviewPayload);
 
