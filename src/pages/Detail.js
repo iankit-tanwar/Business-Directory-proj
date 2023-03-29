@@ -42,6 +42,15 @@ export default function Detail() {
 
   
   useEffect(() => {
+
+    setReviewPayload({
+      data:{
+        
+        users_permissions_users:window.localStorage.getItem('user_id-->')
+  }
+
+  })
+
     
 
 
@@ -53,14 +62,14 @@ export default function Detail() {
 
 
 
-    console.log('hotel_id--->', searchParams.get('hotel_id'));
-    let hotel_id = searchParams.get('hotel_id');
+    console.log('business_id--->', searchParams.get('business_id'));
+    let business_id = searchParams.get('business_id');
 
 
-    fetch(`${URL}/api/businesses?populate=*&filters[id][$eq]=` + hotel_id, {})
+    fetch(`${URL}/api/businesses?populate=*&filters[id][$eq]=` + business_id, {})
       .then(res => res.json())
       .then((data) => {
-        console.log('hotel_details', data)
+        console.log('business_details', data)
 
         if (data.data.length > 0) {
           setBusName(data.data[0].attributes.name)
@@ -75,6 +84,13 @@ export default function Detail() {
 
       })
       .catch(err => err)
+
+
+
+
+      // review payload
+
+
   }, []);
 
 
@@ -96,10 +112,32 @@ export default function Detail() {
     console.log(reviewPayload);
 
     setReviewPayload({
-      data:{Description:desc
+      data:{
+        ...reviewPayload,
+        Description:desc
   }
 
   })
+
+
+
+
+
+  fetch(`http://localhost:1337/api/reviews`,{
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+   
+      "Authorization": "Bearer"+ window.localStorage.getItem("token-->")
+    },
+      body: JSON.stringify(reviewPayload)
+
+  })
+  .then(res=>res.json())
+  .then((data)=>{
+    console.log(data)
+  })
+  .catch(err=>err);
 }
 
 
@@ -118,7 +156,7 @@ export default function Detail() {
           <Carousel indicators={false} className="">
 
             {
-              busPhoto.map((cv, idx, arr) => {
+               busPhoto && busPhoto.map((cv, idx, arr) => {
                 return <Carousel.Item>
                   <img
                     className="w-50"
@@ -148,6 +186,7 @@ export default function Detail() {
         onPointerEnter={onPointerEnter}
         onPointerLeave={onPointerLeave}
         onPointerMove={onPointerMove}
+        
         /* Available Props */
       />
 

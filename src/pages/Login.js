@@ -30,6 +30,8 @@ export default function Login() {
                     //login success
                     alert("login success")
                     window.localStorage.setItem('token-->',data["jwt"])
+                    window.localStorage.setItem('user_id-->',data["user"]["id"])
+                    
 
                     window.location.href ='./business_Register'
 
