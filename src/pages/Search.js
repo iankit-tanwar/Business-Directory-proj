@@ -2,7 +2,7 @@ import { faStar } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
 import { Badge, Button, Card, Col, ListGroup, Row } from 'react-bootstrap'
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { URL } from '../helper/url';
 import img from '../assests/img/1.png';
 
@@ -13,6 +13,8 @@ export default function Search() {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const [businesses, setBusinesses] = useState([]);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
 
@@ -33,9 +35,9 @@ export default function Search() {
                 <Col sm={9}>  <h1>Search Detail</h1>
                     {
                         businesses.map((cv, idx, arr) => {
-                           
-                         return    <Link key={idx} to={'/detail?business_id='+cv.id}>
-                         <Card key={idx} className='p-3 mb-3'>
+                        
+                          
+                            return     <Card onClick={()=>{navigate('/detail?business_id='+cv.id)}} key={idx} className='p-3 mb-3'>
                            
 
                                 <Row>
@@ -67,7 +69,7 @@ export default function Search() {
                                 </Row>
                               
                             </Card>
-                            </Link>
+                            
                         })
                     }
 

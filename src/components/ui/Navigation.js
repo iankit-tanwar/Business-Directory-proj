@@ -4,42 +4,60 @@ import { Link } from 'react-router-dom';
 import { URL } from '../../helper/url';
 
 export default function Navigation() {
-const[logo , setLogo]=useState('')
-var x = document.getElementById("demo");
+    const [logo, setLogo] = useState('')
+    var x = document.getElementById("demo");
 
-    useEffect(()=>{
+    useEffect(() => {
         fetch(`${URL}/api/website?populate=*`)
-        .then(res=>res.json())
-        .then((data)=>{
-            console.log("Loggo====>",data.data.attributes.logo.data.attributes.url )
-            setLogo(data.data.attributes.logo.data.attributes.url)
-        }).catch(err=>err)
-    },[])
+            .then(res => res.json())
+            .then((data) => {
+                console.log("Loggo====>", data.data.attributes.logo.data.attributes.url)
+                setLogo(data.data.attributes.logo.data.attributes.url)
+            }).catch(err => err)
+    }, [])
 
 
 
 
-    let myLogout = ()=>{
+    let myLogout = () => {
 
         window.localStorage.removeItem('token-->')
-        window.location.href ='/login'
+        window.location.href = '/login'
     }
-    let detectLocation =()=>{
-       // alert("hii")
+    let detectLocation = () => {
+        // alert("hii")
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
-          } else {
+        } else {
             x.value = "Geolocation is not supported by this browser.";
-          }
-        
+        }
+
     }
-    let showPosition=(position)=>{
+    let showPosition = (position) => {
         console.log(position)
-        window.localStorage.setItem('addres---->','Village Rewla khanpur')
+        window.localStorage.setItem('addres---->', 'Village Rewla khanpur')
         x.value = "Village Rewla khanpur"
-       // x.value = "Latitude: " + position.coords.latitude +
-       // "<br>Longitude: " + position.coords.longitude;
-      }
+        // x.value = "Latitude: " + position.coords.latitude +
+        // "<br>Longitude: " + position.coords.longitude;
+    }
+
+
+    let myLang = (e) => {
+       // console.log(e.target.innerHTML);
+        let x=e.target.innerHTML;
+        if(x=='English'){
+            console.log('hindi')
+            e.target.innerHTML='Hindi'
+            window.localStorage.setItem('lang','hi')
+
+        }
+        else{
+            console.log('English')
+            e.target.innerHTML='English'
+            window.localStorage.setItem('lang','en')
+
+        }
+    }
 
 
 
@@ -49,7 +67,7 @@ var x = document.getElementById("demo");
             <Container fluid>
                 <Link to="/">
                     <img
-                       src={`${URL}${logo}`}
+                        src={`${URL}${logo}`}
                         width="100"
 
                         className="d-inline-block align-top"
@@ -59,7 +77,7 @@ var x = document.getElementById("demo");
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                     <Form className="d-flex">
-                        <Button className='btn btn-sm ms-3 ' onClick={()=>{detectLocation()}}>Detect Location</Button>
+                        <Button className='btn btn-sm ms-3 ' onClick={() => { detectLocation() }}>Detect Location</Button>
 
                         <Form.Control
                             type="text"
@@ -67,11 +85,11 @@ var x = document.getElementById("demo");
                             id="demo"
                             placeholder="Search"
                             className="ms-3"
-                            
+
                         />
                         <Form.Control
                             type="search"
-                         
+
                             placeholder="Search"
                             className="ms-3"
                             aria-label="Search"
@@ -96,23 +114,24 @@ var x = document.getElementById("demo");
                             </>
 
                         }
+                        <Nav.Link onClick={(e) => { myLang(e) }} className='btn btn-link'>English</Nav.Link >
 
                         {
                             window.localStorage.getItem('token-->') !== null &&
 
                             <>
-                             <Link to="/Business_Register" className='btn btn-link'>Business Register</Link>
-                            <Nav.Link onClick={()=>{myLogout()}} className='btn btn-link'>Logout</Nav.Link >
-                           
+                                <Link to="/Business_Register" className='btn btn-link'>Business Register</Link>
+                                <Nav.Link onClick={() => { myLogout() }} className='btn btn-link'>Logout</Nav.Link >
 
-                                </>
-                          
-                         
+
+                            </>
+
+
                         }
 
 
-                            </Nav>
-                    
+                    </Nav>
+
                 </Navbar.Collapse>
             </Container>
         </Navbar></>

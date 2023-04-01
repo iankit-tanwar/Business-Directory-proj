@@ -7,7 +7,9 @@ import { Rating } from 'react-simple-star-rating';
 import { URL } from '../helper/url';
 
 export default function Detail() {
+
   const [searchParams, setSearchParams] = useSearchParams();
+
   const [busDetail, setBusDetail] = useState([]);
   const [busPhoto, setBusPhotos] = useState([]);
   const [busName, setBusName] = useState('');
@@ -28,17 +30,20 @@ export default function Detail() {
 
 
   const [reviewPayload,setReviewPayload]=useState([{
-                                            "data": {
-                                              "Rate_scale": 1,
-                                              "Description": "good",
-                                              "users_permissions_users": [
-                                              15
-                                              ],
-                                              "businesses": [
-                                              14
-                                              ]
-                                            }
-  }]);
+    "data": {
+      "Rate_scale": 0,
+      "Description": "string",
+      "users_permissions_users": [
+        "string or id",
+        "string or id"
+      ],
+      "businesses": [
+        "string or id",
+        "string or id"
+      ]
+    }
+  }
+  ]);
 
   
   useEffect(() => {
@@ -46,19 +51,17 @@ export default function Detail() {
     setReviewPayload({
       data:{
         
-        users_permissions_users:window.localStorage.getItem('user_id-->')
+        users_permissions_users:window.localStorage.getItem('user_id-->'),
+       
   }
 
-  })
+  }
+  )
+  
+
 
     
 
-
-    const svg = document.querySelector("svg")
-
-    svg.addEventListener('mouseover', () => console.log('Event: mouseover'));
-
-    
 
 
 
@@ -89,37 +92,59 @@ export default function Detail() {
 
 
       // review payload
-
+      setReviewPayload({
+        ...reviewPayload,
+    
+        data:{
+          ...reviewPayload.data,
+          businesses:searchParams.get('business_id')
+         
+         
+    }
+    
+    }
+    )
 
   }, []);
 
 
-  let star = (e) => {
-  /*  console.log(e.target)
-    let elm = e.target;
-    elm.classList.remove("text-secondary");
-    elm.classList.add("text-warning")
-
-  */}
   
+const handleSubmit =(value)=>{
+ // evt.preventDefault();
+ 
+  setReviewPayload({
 
+    ...reviewPayload,
+    data:{
+      
+      ...reviewPayload.data,
+      Description:value
+
+    
+
+}})
+
+}
   
 
   let submitReview=(e)=>{
-    let desc = document.querySelector("textarea.review_desc").value
+   /* let desc = document.querySelector("textarea.review_desc").value
     console.log('desc--->',desc)
     
     console.log(reviewPayload);
-
     setReviewPayload({
+
+      ...reviewPayload,
       data:{
-        ...reviewPayload,
+        
+        ...reviewPayload.data,
         Description:desc
-  }
 
-  })
+      
 
+  })*/
 
+let JWT_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTY4MDEwODk2MCwiZXhwIjoxNjgyNzAwOTYwfQ.FC3yMB-FbqKRMNqcFzz0mExT-T3ObAJn91uFncpVwu4;' 
 
 
 
@@ -128,7 +153,7 @@ export default function Detail() {
     headers: {
       "Content-Type": "application/json",
    
-      "Authorization": "Bearer"+ window.localStorage.getItem("token-->")
+      "Authorization": "Bearer"+ window.localStorage.getItem('token-->')
     },
       body: JSON.stringify(reviewPayload)
 
@@ -196,7 +221,7 @@ export default function Detail() {
         <Form.Group className="mb-3" >
           <Form.Label>Tell about your experience</Form.Label>
 
-          <Form.Control as="textarea"  className='review_desc forn-control'  placeholder="Leave a comment here" />
+          <Form.Control as="textarea"  className='review_desc forn-control'  placeholder="Leave a comment here" onChange={e=> handleSubmit(  e.target.value)} />
 
         </Form.Group>
 
