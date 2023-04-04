@@ -17,3 +17,7 @@ footer{
 .card:hover{
     cursor: pointer;
 }
+.a_tbdr2{
+
+    border: 1px dashed red;
+}
